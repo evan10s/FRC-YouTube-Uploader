@@ -46,6 +46,7 @@ def file_size(path):
 def quals_yt_title(options):
     return options.title if not options.replay else f"{options.title} Replay"
 
+
 def double_elims_yt_title(options):
     mnum = options.mnum
     round_num = None
@@ -65,7 +66,9 @@ def double_elims_yt_title(options):
     elif mnum == 13:
         round_num = 5
     else:
-        raise ValueError("Double Eliminations match number must be within 1 and 13 (inclusive)")
+        raise ValueError(
+            "Double Eliminations match number must be within 1 and 13 (inclusive)"
+        )
 
     is_replay = options.replay
 
@@ -74,6 +77,7 @@ def double_elims_yt_title(options):
         return f"{base_match_name} - Replay"
 
     return base_match_name
+
 
 def quarters_yt_title(options):
     mnum = options.mnum
@@ -163,6 +167,7 @@ def quals_filename(options):
                     break
     return file
 
+
 def double_elims_filename(options):
     file = None
     for f in options.files:
@@ -182,6 +187,7 @@ def double_elims_filename(options):
                     file = f
                     break
     return file
+
 
 def quarters_filename(options):
     file = None
@@ -355,15 +361,19 @@ def quals_match_code(mtype, mnum):
     match_code = str(mtype) + str(mnum)
     return match_code
 
+
 def double_elims_match_code(mtype, mnum):
     print("double_elims_mc", mnum)
     mnum = int(mnum)
     # See https://github.com/the-blue-alliance/the-blue-alliance/pull/5025
 
     if mnum < 1 or mnum > 13:
-        raise ValueError("Double Eliminations match number must be between 1 and 13, inclusive")
+        raise ValueError(
+            "Double Eliminations match number must be between 1 and 13, inclusive"
+        )
 
     return f"sf{mnum}m1"
+
 
 def quarters_match_code(mtype, mnum):
     match_set = str(mnum % 4)

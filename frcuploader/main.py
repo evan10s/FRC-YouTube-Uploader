@@ -13,10 +13,6 @@ from .updatePlaylistThumbnails import main as uptmain
 
 
 def main():
-    print(os.path.isfile(consts.youtube_oauth_file))
-    print(len(os.listdir(consts.yt_accounts_folder)))
-    print(consts.yt_accounts_folder)
-    print(os.listdir(consts.yt_accounts_folder))
     try:
         if os.path.isfile(consts.youtube_oauth_file) or not len(
             os.listdir(consts.yt_accounts_folder)

@@ -204,9 +204,10 @@ class FRC_Uploader(BaseWidget):
         for t in consts.VALID_PRIVACY_STATUSES:
             self._privacy += t
         self._mtype += ("Qualifications", "qm")
+        self._mtype += ("Double Elims", "double-elims")
+        self._mtype += ("Finals", "f1m")
         self._mtype += ("Quarterfinals", "qf")
         self._mtype += ("Semifinals", "sf")
-        self._mtype += ("Finals", "f1m")
         self._ceremonies += ("None", 0)
         self._ceremonies += ("Opening Ceremonies", 1)
         self._ceremonies += ("Alliance Selection", 2)

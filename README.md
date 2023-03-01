@@ -40,6 +40,8 @@ Bases:
     Quarter -> quarter + final
     
     Semifinal -> semi + final
+
+    Double Eliminations -> double elims
     
     Final -> final
     
@@ -48,6 +50,8 @@ Bases:
 QM15 = `Qualification Match 15.mp4` or `Qual 15.mp4`
 
 SF2M3 = `Semifinal Tiebreaker 2.mp4` or `semi final tiebreak 2.mp4`
+
+(Double Elims TBA format) SF10M1 = `Double Elims 10.mp4` (case insensitive)
 
 F1M3 = `Final 3.mp4` or `final tiebreaker.mp4` (The FMS shows Final 3, but I allow either tiebreaker or 3 for naming)
 

@@ -72,7 +72,7 @@ def double_elims_yt_title(options):
 
     is_replay = options.replay
 
-    base_match_name = f"{options.ename} - Playoffs Match {mnum} (R{round_num})"
+    base_match_name = f"Playoffs Match {mnum} (R{round_num}) - {options.ename}"
     if is_replay:
         return f"{base_match_name} - Replay"
 
@@ -83,16 +83,16 @@ def quarters_yt_title(options):
     mnum = options.mnum
     if mnum <= 8:
         return (
-            f"{options.ename} - Quarterfinal Match {mnum}"
+            f"Quarterfinal Match {mnum} - {options.ename}"
             if not options.replay
-            else f"{options.ename} - Quarterfinal Match {mnum} Replay"
+            else f"Quarterfinal Match {mnum} Replay - {options.ename}"
         )
     elif mnum <= 12:
         mnum -= 8
         return (
-            f"{options.ename} - Quarterfinal Tiebreaker {mnum}"
+            f"Quarterfinal Tiebreaker {mnum} - {options.ename}"
             if not options.replay
-            else f"{options.ename} - Quarterfinal Tiebreaker {mnum} Replay"
+            else f"Quarterfinal Tiebreaker {mnum} Replay - {options.ename}"
         )
     else:
         raise ValueError("options.mnum must be within 1 and 12")
@@ -102,16 +102,16 @@ def semis_yt_title(options):
     mnum = options.mnum
     if mnum <= 4:
         return (
-            f"{options.ename} - Semifinal Match {mnum}"
+            f"Semifinal Match {mnum} - {options.ename}"
             if not options.replay
-            else f"{options.ename} - Semifinal Match {mnum} Replay"
+            else f"Semifinal Match {mnum} Replay - {options.ename}"
         )
     elif mnum <= 6:
         mnum -= 4
         return (
-            f"{options.ename} - Semifinal Tiebreaker {mnum}"
+            f"Semifinal Tiebreaker {mnum} - {options.ename}"
             if not options.replay
-            else f"{options.ename} - Semifinal Tiebreaker {mnum} Replay"
+            else f"Semifinal Tiebreaker {mnum} Replay - {options.ename}"
         )
     else:
         raise ValueError("options.mnum must be within 1 and 6")
@@ -119,9 +119,9 @@ def semis_yt_title(options):
 
 def finals_yt_title(options):
     return (
-        f"{options.ename} - Final Match {options.mnum}"
+        f"Final Match {options.mnum} - {options.ename}"
         if not options.replay
-        else f"{options.ename} - Final Match {options.mnum} Replay"
+        else f"Final Match {options.mnum} Replay - {options.ename}"
     )
 
 
@@ -129,18 +129,18 @@ def ceremonies_yt_title(options):
     title = None
     if options.ceremonies is 1:
         if not options.eday:
-            title = f"{options.ename} - {options.day} Opening Ceremonies"
+            title = f"{options.day} Opening Ceremonies - {options.ename}"
         else:
-            title = f"{options.ename} - Day {options.eday} Opening Ceremonies"
+            title = f"Day {options.eday} Opening Ceremonies - {options.ename}"
     elif options.ceremonies is 2:
-        title = f"{options.ename} - Alliance Selection"
+        title = f"Alliance Selection - {options.ename}"
     elif options.ceremonies is 3:
         if not options.eday:
-            title = f"{options.ename} - Closing Ceremonies"
+            title = f"Closing Ceremonies - {options.ename}"
         else:
-            title = f"{options.ename} - Day {options.eday} Closing Ceremonies"
+            title = f"Day {options.eday} Closing Ceremonies - {options.ename}"
     elif options.ceremonies is 4:
-        title = f"{options.ename} - Highlight Reel"
+        title = f"Highlight Reel - {options.ename}"
     return title
 
 

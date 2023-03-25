@@ -601,7 +601,7 @@ def init(options):
     # default category is science & technology
     options.category = 28
     options.title = (
-        options.ename + f" - Qualification Match {options.mnum}"
+        f"Qualification Match {options.mnum} - {options.ename}"
     )  # default title
     if any(
         k == options.description

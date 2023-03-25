@@ -7,6 +7,7 @@ from .utils import (
     quarters_match_code,
     semis_match_code,
     finals_match_code,
+    double_elims_match_code,
     tiebreak_mnum,
     get_match_results,
 )
@@ -153,6 +154,32 @@ def main():
             if "Tiebreak" in title:
                 num = tiebreak_mnum(num, "sf")
             mnum = semis_match_code("sf", num)
+            print(f"Posting {mnum}")
+            consts.tba.add_match_videos({mnum: video_id})
+            update_description(
+                youtube,
+                playlist_item,
+                video_id,
+                ecode,
+                mnum,
+                ename,
+                team,
+                twit,
+                fb,
+                weblink,
+            )
+        elif any(
+            x in title for x in ["R1", "R2", "R3", "R4", "R5"]
+        ):  # Double eliminations
+            try:
+                extracted_match_num = title[title.find("Match") + 5 :].split(" ")[1]
+                mnum = double_elims_match_code(mtype=None, mnum=extracted_match_num)
+            except IndexError as e:
+                print(e)
+                raise ValueError(
+                    f"Unable to extract match number from Double Elims match with title {title}"
+                )
+
             print(f"Posting {mnum}")
             consts.tba.add_match_videos({mnum: video_id})
             update_description(

@@ -47,6 +47,38 @@ def quals_yt_title(options):
     return options.title if not options.replay else f"{options.title} Replay"
 
 
+def double_elims_yt_title(options):
+    mnum = options.mnum
+    round_num = None
+    # Round 1 - matches 1-4
+    if mnum <= 4:
+        round_num = 1
+    # Round 2 - matches 5-8
+    elif mnum <= 8:
+        round_num = 2
+    # Round 3 - matches 9-10
+    elif mnum <= 10:
+        round_num = 3
+    # Round 4 - matches 11-12
+    elif mnum <= 12:
+        round_num = 4
+    # Round 5 - match 13
+    elif mnum == 13:
+        round_num = 5
+    else:
+        raise ValueError(
+            "Double Eliminations match number must be within 1 and 13 (inclusive)"
+        )
+
+    is_replay = options.replay
+
+    base_match_name = f"{options.ename} - Playoffs Match {mnum} (R{round_num})"
+    if is_replay:
+        return f"{base_match_name} - Replay"
+
+    return base_match_name
+
+
 def quarters_yt_title(options):
     mnum = options.mnum
     if mnum <= 8:
@@ -123,6 +155,27 @@ def quals_filename(options):
             [
                 " " + str(options.mnum) + "." in fl
                 and any(k in fl for k in ("qual", "qualification", "qm"))
+            ]
+        ):
+            if options.replay:
+                if "replay" in fl:
+                    file = f
+                    break
+            else:
+                if "replay" not in fl:
+                    file = f
+                    break
+    return file
+
+
+def double_elims_filename(options):
+    file = None
+    for f in options.files:
+        fl = f.lower()
+        if all(
+            [
+                " " + str(options.mnum) + "." in fl
+                and any(k in fl for k in ("double elims", "double eliminations"))
             ]
         ):
             if options.replay:
@@ -281,12 +334,14 @@ def create_names(options):
             "qf": quarters_filename,
             "sf": semis_filename,
             "f1m": finals_filename,
+            "double-elims": double_elims_filename,
         }
         yt = {
             "qm": quals_yt_title,
             "qf": quarters_yt_title,
             "sf": semis_yt_title,
             "f1m": finals_yt_title,
+            "double-elims": double_elims_yt_title,
         }
         try:
             if options.newest:
@@ -305,6 +360,19 @@ def create_names(options):
 def quals_match_code(mtype, mnum):
     match_code = str(mtype) + str(mnum)
     return match_code
+
+
+def double_elims_match_code(mtype, mnum):
+    print("double_elims_mc", mnum)
+    mnum = int(mnum)
+    # See https://github.com/the-blue-alliance/the-blue-alliance/pull/5025
+
+    if mnum < 1 or mnum > 13:
+        raise ValueError(
+            "Double Eliminations match number must be between 1 and 13, inclusive"
+        )
+
+    return f"sf{mnum}m1"
 
 
 def quarters_match_code(mtype, mnum):
@@ -349,13 +417,14 @@ def get_match_code(mtype, mnum, mcode):
             "qf": quarters_match_code,
             "sf": semis_match_code,
             "f1m": finals_match_code,
+            "double-elims": double_elims_match_code,
         }
         return switcher[mtype](mtype, mnum)
     print(f"Uploading as {mcode}")
     return mcode.lower()
 
 
-"""Data Compliation and Adjustment Functions"""
+"""Data Compilation and Adjustment Functions"""
 
 
 def get_match_results(event_key, match_key):
@@ -427,6 +496,9 @@ def create_description(
 
 
 def tiebreak_mnum(mnum, mtype):
+    if mtype == "double-elims":
+        raise ValueError("Tiebreak not supported for Double Elims matches")
+
     switcher = {
         "qm": mnum,
         "qf": mnum + 8,
@@ -462,6 +534,8 @@ def add_to_playlist(videoID, playlistID):
 
 
 def post_video(token, secret, match_video, event_key, loc="match_videos"):
+    if consts.DEBUG:
+        print("TBA post_video POST data", match_video)
     trusted_auth = {"X-TBA-Auth-Id": "", "X-TBA-Auth-Sig": ""}
     trusted_auth["X-TBA-Auth-Id"] = token
     request_path = f"/api/trusted/v1/event/{event_key}/{loc}/add"
